@@ -4,8 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpeakerBox</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    
+    <aside id="side-menu" aria-label="Side navigation" hidden>
+        <nav>
+            <ul>
+                <li><a href="#">⌂ Main</a></li>
+                <li><a href="#">◉ Explore</a></li>
+                <li><button type="button">＋ New</button></li>
+                <li><a href="#">▢ Your playlist</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <header>
+        <nav aria-label="Main navigation">
+            <a href="#" aria-label="SpeakerBox home">
+                <img src="images/logo.jpg" alt="SpeakerBox logo">
+            </a>
+
+            <form role="search">
+                <label for="search" hidden>Search</label>
+                <input id="search" name="search" type="search" placeholder="Search">
+                <button id="Lypa" type="submit" aria-label="Search">🔎</button>
+            </form>
+
+            <div aria-label="User profile">
+                <span id="guest">Guest</span>
+                <span role="img" aria-label="Guest profile">👤</span>
+            </div>
+
+            <div aria-label="Account actions">
+                <button id="Supp" type="button">Support</button>
+                <button id="log" type="button">Login!</button>
+                <button id="Signup" type="button">Sign Up!</button>
+            </div>
+        </nav>
+    </header>
+    <main>
+        
+        
+
+    </main>
+    <footer>
+
+
+
+        
+    </footer>
 </body>
+
 </html>
