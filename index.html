@@ -8,16 +8,21 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <aside id="side-menu" aria-label="Side navigation" hidden>
+    <aside id="side-menu" aria-label="Side navigation" aria-hidden="true">
         <nav>
             <ul>
-                <li><a href="#">⌂ Main</a></li>
-                <li><a href="#">◉ Explore</a></li>
-                <li><button type="button">＋ New</button></li>
-                <li><a href="#">▢ Your playlist</a></li>
+                <li><a href="#"><span class="menu-icon">⌂</span> Main</a></li>
+                <li><a href="#"><span class="menu-icon">◉</span> Explore</a></li>
+                <li><button type="button"><span class="menu-icon">＋</span> New</button></li>
+                <li><a class="playlist-link" href="#"><span class="menu-icon">■</span> Your playlist</a></li>
             </ul>
         </nav>
     </aside>
+
+    <button id="navi-tab" type="button" aria-controls="side-menu" aria-expanded="false">
+        <span aria-hidden="true">‹</span>
+        <span>Navi</span>
+    </button>
 
     <header>
         <nav aria-label="Main navigation">
@@ -43,16 +48,86 @@
             </div>
         </nav>
     </header>
-    <main>
-        
-        
+    <main class="music-content">
+        <div class="music-layout">
+            <div class="popular-sections">
+                <section class="music-section" aria-labelledby="gary-numan-title">
+                    <h2 id="gary-numan-title" class="section-title">Popular : Gary Numan</h2>
+                    <div class="song-row">
+                        <button class="song-card" type="button" data-audio="audio/Gary Numan Like a B-Film.m4a" aria-pressed="false">
+                            <img src="images/like a b-film (1).jpg" alt="Like a B-Film cover">
+                            <span class="song-name">Like a B-Film</span>
+                            <span class="song-album">Telekon</span>
+                        </button>
 
+                        <button class="song-card" type="button" data-audio="audio/Gary Numan My Name Is Ruin (Official Video).m4a" aria-pressed="false">
+                            <img src="images/my name is ruin.jpg" alt="My Name Is Ruin cover">
+                            <span class="song-name">My Name Is Ruin</span>
+                            <span class="song-album">Savage</span>
+                        </button>
+
+                        <a class="see-more" href="#">See more →</a>
+                    </div>
+                </section>
+
+                <section class="music-section" aria-labelledby="rtj-title">
+                    <h2 id="rtj-title" class="section-title">Popular : Run The Jewels</h2>
+                    <div class="song-row">
+                        <button class="song-card" type="button" data-audio="audio/Run_The_Jewels-the_ground_below-spaces.im.mp3" aria-pressed="false">
+                            <img src="images/the ground below.jpg" alt="The Ground Below cover">
+                            <span class="song-name">The Ground Below</span>
+                            <span class="song-album">RTJ4</span>
+                        </button>
+
+                        <button class="song-card" type="button" data-audio="audio/Run_The_Jewels_-_Legend_Has_It_(mp3.pm).mp3" aria-pressed="false">
+                            <img src="images/legend has it.jpg" alt="Legend Has It cover">
+                            <span class="song-name">Legend Has It</span>
+                            <span class="song-album">RTJ3</span>
+                        </button>
+
+                        <a class="see-more" href="#">See more →</a>
+                    </div>
+                </section>
+            </div>
+
+            <section class="monthly-chart" aria-labelledby="month-top-title">
+                <h2 id="month-top-title">Month Top 10</h2>
+                <div class="monthly-list">
+                    <button class="song-card" type="button" data-audio="audio/Teddy Swims Mr. Know It All.m4a" aria-pressed="false">
+                        <img src="images/mr. know it all.jpg" alt="Mr. Know It All cover">
+                        <span class="song-name">Mr. Know It All</span>
+                        <span class="song-album">Teddy Swims · Mr. Know It All</span>
+                    </button>
+
+                    <button class="song-card" type="button" data-audio="audio/NSYNC Bye Bye Bye (Lyrics) (Deadpool 3 Soundtrack).m4a" aria-pressed="false">
+                        <img src="images/bye bye bye.jpg" alt="Bye Bye Bye cover">
+                        <span class="song-name">Bye Bye Bye</span>
+                        <span class="song-album">*NSYNC · No Strings Attached</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <audio id="audio-player" preload="metadata"></audio>
     </main>
     <footer>
-
-
-
-        
+        <h2>Created by:</h2>
+        <ul class="creators">
+            <li>
+                <span>Andry</span>
+                <span>(Андрій Шевченко)</span>
+            </li>
+            <li>
+                <span>Marafonec</span>
+                <span>(Максим Шамін)</span>
+            </li>
+            
+            <li>
+                <span>tyndgsyx</span>
+                <span>(Костя Табак)</span>
+            </li>
+            
+        </ul>
     </footer>
 </body>
 
