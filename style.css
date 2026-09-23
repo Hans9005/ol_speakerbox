@@ -150,6 +150,7 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 30px;
+}    
 footer {
     background-color: #222;
       display: flex;
@@ -159,33 +160,9 @@ footer {
       margin: 0;
       font-family: Arial, sans-serif;
 }
-}
 
-@media (max-width: 820px) {
-    .music-layout {
-        grid-template-columns: 1fr;
-    }
+/* media завжди пишуться в кінці файлу */
 
-    .monthly-chart {
-        text-align: left;
-    }
-
-    .monthly-list {
-        flex-direction: row;
-        align-items: flex-start;
-    }
-}
-
-@media (max-width: 560px) {
-    .song-row,
-    .monthly-list {
-        flex-wrap: wrap;
-    }
-
-    .song-row .see-more {
-        width: 100%;
-    }
-}
 
 body::after {
     position: fixed;
@@ -496,6 +473,32 @@ footer h2 {
         margin: 24px 12px 12px;
         padding: 24px 16px 32px;
     }
+    
+@media (max-width: 820px) {
+    .music-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .monthly-chart {
+        text-align: left;
+    }
+
+    .monthly-list {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .song-row,
+    .monthly-list {
+        flex-wrap: wrap;
+    }
+
+    .song-row .see-more {
+        width: 100%;
+    }
+}
 
     .creators {
         grid-template-columns: 1fr;
