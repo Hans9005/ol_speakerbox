@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,3 +61,67 @@
 </body>
 
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your playlists · SpeakerBox</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <aside id="side-menu" aria-label="Side navigation" aria-hidden="true">
+        <nav>
+            <ul>
+                <li><a href="index.html" data-route><span class="menu-icon">⌂</span> Main</a></li>
+                <li><a href="#"><span class="menu-icon">◉</span> Explore</a></li>
+                <li><button id="new-playlist" type="button"><span class="menu-icon">＋</span> New playlist</button></li>
+                <li><a class="playlist-link" href="playlists.html" data-route><span class="menu-icon">■</span> Your playlists</a></li>
+            </ul>
+            <ul id="sidebar-playlists" aria-label="Created playlists"></ul>
+        </nav>
+    </aside>
+
+    <button id="navi-tab" type="button" aria-controls="side-menu" aria-expanded="false">
+        <span aria-hidden="true">‹</span>
+        <span>Navi</span>
+    </button>
+
+    <header>
+        <nav aria-label="Main navigation">
+            <a href="index.html" data-route aria-label="SpeakerBox home">
+                <img src="images/logo.jpg" alt="SpeakerBox logo">
+            </a>
+
+            <form role="search">
+                <label for="search" hidden>Search</label>
+                <input id="search" name="search" type="search" placeholder="Search">
+                <button id="Lypa" type="submit" aria-label="Search">🔎</button>
+            </form>
+
+            <div aria-label="User profile">
+                <span id="guest">Guest</span>
+                <span role="img" aria-label="Guest profile">👤</span>
+            </div>
+
+            <div aria-label="Account actions">
+                <button id="Supp" type="button">Support</button>
+                <button id="log" type="button">Login!</button>
+                <button id="Signup" type="button">Sign Up!</button>
+                <button id="logout" type="button" hidden>Log out</button>
+            </div>
+        </nav>
+    </header>
+    <main class="music-content">
+        <section id="playlist-view" class="playlist-view"></section>
+        <audio id="audio-player" preload="metadata"></audio>
+    </main>
+    <footer>
+    
+    </footer>
+</body>
+
+</html>
+>>>>>>> 3ffb452 (final)
