@@ -221,8 +221,13 @@ authForm.addEventListener("submit", async (event) => {
 
 renderAuth();
 
+document.querySelector("#Supp").addEventListener("click", () => {
+    window.alert("Все в руках ваших рук.");
+});
+
 let playlistView = document.querySelector("#playlist-view");
 let homeView = document.querySelector("#home-view");
+let exploreView = document.querySelector("#explore-view");
 const sidebarPlaylists = document.querySelector("#sidebar-playlists");
 const storageKey = "speakerbox-playlists";
 let playlists;
@@ -266,6 +271,21 @@ const mwPlaylist = {
         };
     })
 };
+const homeTrackFallback = [
+    { audio: "audio/Gary Numan Like a B-Film.m4a", name: "Like a B-Film", album: "Telekon", cover: "images/like a b-film (1).jpg" },
+    { audio: "audio/Gary Numan My Name Is Ruin (Official Video).m4a", name: "My Name Is Ruin", album: "Savage", cover: "images/my name is ruin.jpg" },
+    { audio: "audio/Run_The_Jewels-the_ground_below-spaces.im.mp3", name: "The Ground Below", album: "RTJ4", cover: "images/the ground below.jpg" },
+    { audio: "audio/Run_The_Jewels_-_Legend_Has_It_(mp3.pm).mp3", name: "Legend Has It", album: "RTJ3", cover: "images/legend has it.jpg" },
+    { audio: "audio/Пост.mp3", name: "Пострадянська Доба", album: "BaWN, Пострадянська Доба", cover: "images/Пострадянська Доба.jpg" },
+    { audio: "audio/молодість.mp3", name: "Молодість", album: "SadSvit, Casette", cover: "images/Молодість.jpg" },
+    { audio: "audio/Teddy Swims Mr. Know It All.m4a", name: "Mr. Know It All", album: "Teddy Swims · Mr. Know It All", cover: "images/mr. know it all.jpg" },
+    { audio: "audio/NSYNC Bye Bye Bye (Lyrics) (Deadpool 3 Soundtrack).m4a", name: "Bye Bye Bye", album: "*NSYNC · No Strings Attached", cover: "images/bye bye bye.jpg" }
+];
+const exploreExtras = [
+    { audio: "audio/07. Hard Drivers.mp3", name: "Hard Drivers", album: "Ekstrak", cover: "images/hard drivers.jpg" },
+    { audio: "audio/Asphalt_8_Airborne-breton_the_commission-spaces.im.mp3", name: "The Commission", album: "Breton", cover: "images/Breton.jpg" },
+    { audio: "audio/BASTA_RHUMES_-_Break_Ya_Neck_(mp3.pm).mp3", name: "Break Ya Neck", album: "Busta Rhymes", cover: "images/break ya neck.jpg" }
+];
 
 try {
     const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
@@ -480,6 +500,28 @@ function renderPlaylist(playlist) {
     playlistView.append(list);
 }
 
+function getAllTracks() {
+    const homeTracks = homeView
+        ? Array.from(homeView.querySelectorAll(".music-layout .song-card"), songFromCard)
+        : homeTrackFallback;
+    const unique = new Map();
+    [...homeTracks, ...mwPlaylist.songs, ...exploreExtras].forEach((song) => unique.set(song.audio, song));
+    return Array.from(unique.values());
+}
+
+function renderExplore() {
+    exploreView.replaceChildren();
+    const title = document.createElement("h1");
+    title.textContent = "Explore";
+    const tracks = getAllTracks();
+    const count = document.createElement("p");
+    count.textContent = `${tracks.length} tracks`;
+    const list = document.createElement("div");
+    list.className = "explore-tracks";
+    tracks.forEach((song) => list.append(createSongCard(song)));
+    exploreView.append(title, count, list);
+}
+
 function readPlaylistImage(file) {
     return new Promise((resolve, reject) => {
         if (!file) return resolve(null);
@@ -565,38 +607,48 @@ function renderCreatePlaylist() {
     input.focus();
 }
 
-async function ensureView(isHome) {
-    if (isHome ? homeView : playlistView) return;
-    const page = isHome ? "index.html" : "playlists.html";
+async function ensureView(viewName) {
+    if ((viewName === "home" && homeView) || (viewName === "playlists" && playlistView) || (viewName === "explore" && exploreView)) return;
+    const page = viewName === "home" ? "index.html" : `${viewName}.html`;
     const response = await fetch(page);
     if (!response.ok) throw new Error(`Could not load ${page}`);
     const documentFromPage = new DOMParser().parseFromString(await response.text(), "text/html");
-    const view = documentFromPage.querySelector(isHome ? "#home-view" : "#playlist-view");
+    const view = documentFromPage.querySelector(viewName === "home" ? "#home-view" : `#${viewName === "playlists" ? "playlist" : "explore"}-view`);
     if (!view) throw new Error(`Missing view in ${page}`);
     audioPlayer.before(view);
-    if (isHome) homeView = view;
-    else playlistView = view;
+    if (viewName === "home") homeView = view;
+    else if (viewName === "playlists") playlistView = view;
+    else exploreView = view;
 }
 
 let routeVersion = 0;
 async function renderRoute() {
     const version = ++routeVersion;
-    const isHome = !location.pathname.endsWith("/playlists.html");
-    if (isHome || location.hash !== "#/new") pendingSong = null;
+    const viewName = location.pathname.endsWith("/playlists.html")
+        ? "playlists"
+        : location.pathname.endsWith("/explore.html") ? "explore" : "home";
+    if (viewName !== "playlists" || location.hash !== "#/new") pendingSong = null;
     try {
-        await ensureView(isHome);
+        await ensureView(viewName);
     } catch (error) {
         console.error(error);
         location.reload();
         return;
     }
     if (version !== routeVersion) return;
-    if (homeView) homeView.hidden = !isHome;
-    if (playlistView) playlistView.hidden = isHome;
+    if (homeView) homeView.hidden = viewName !== "home";
+    if (playlistView) playlistView.hidden = viewName !== "playlists";
+    if (exploreView) exploreView.hidden = viewName !== "explore";
     document.title = "SpeakerBox";
 
-    if (isHome) {
+    if (viewName === "home") {
         updateSearchResults();
+        setMenuOpen(false);
+        return;
+    }
+    if (viewName === "explore") {
+        renderExplore();
+        document.title = "Explore · SpeakerBox";
         setMenuOpen(false);
         return;
     }
@@ -632,6 +684,7 @@ function navigate(path) {
 
 const searchForm = document.querySelector('form[role="search"]');
 const searchInput = document.querySelector("#search");
+searchInput.value = new URLSearchParams(location.search).get("q") || searchInput.value;
 
 function isMostWantedSearch(value) {
     const query = value.trim().toLowerCase().replace(/\s+/g, " ");
@@ -640,28 +693,56 @@ function isMostWantedSearch(value) {
 
 function updateSearchResults() {
     if (!homeView) return;
-    const result = homeView.querySelector("#mw-search-result");
+    const result = homeView.querySelector("#search-results");
+    const list = homeView.querySelector("#search-results-list");
     const layout = homeView.querySelector(".music-layout");
-    if (!result || !layout) return;
-    const matched = isMostWantedSearch(searchInput.value);
-    result.hidden = !matched;
-    layout.hidden = matched;
+    if (!result || !list || !layout) return;
+    const query = searchInput.value.trim().toLocaleLowerCase();
+    result.hidden = !query;
+    layout.hidden = Boolean(query);
+    list.replaceChildren();
+    if (!query) return;
+
+    const matchingPlaylists = [mwPlaylist, ...playlists].filter((playlist) =>
+        playlist.name.toLocaleLowerCase().includes(query) ||
+        (playlist === mwPlaylist && isMostWantedSearch(query))
+    );
+    matchingPlaylists.forEach((playlist) => {
+        const link = playlistLink(playlist, true);
+        link.classList.add("featured-playlist");
+        const count = document.createElement("small");
+        count.textContent = `${Array.isArray(playlist.songs) ? playlist.songs.length : 0} songs`;
+        link.append(count);
+        list.append(link);
+    });
+
+    const matchingTracks = getAllTracks().filter((song) =>
+        `${song.name} ${song.album} ${song.audio}`.toLocaleLowerCase().includes(query)
+    );
+    matchingTracks.forEach((song) => list.append(createSongCard(song)));
+    if (!matchingPlaylists.length && !matchingTracks.length) {
+        const empty = document.createElement("p");
+        empty.textContent = "Nothing found.";
+        list.append(empty);
+    }
 }
 
-searchInput.addEventListener("input", () => {
-    if (isMostWantedSearch(searchInput.value) && location.pathname.endsWith("/playlists.html")) {
-        navigate("index.html");
+function search() {
+    if (location.pathname.endsWith("/playlists.html") || location.pathname.endsWith("/explore.html")) {
+        navigate(`index.html?q=${encodeURIComponent(searchInput.value)}`);
     } else {
+        const url = new URL(location.href);
+        if (searchInput.value.trim()) url.searchParams.set("q", searchInput.value);
+        else url.searchParams.delete("q");
+        history.replaceState(null, "", url);
         updateSearchResults();
     }
-});
+}
+
+searchInput.addEventListener("input", search);
 searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    if (isMostWantedSearch(searchInput.value) && location.pathname.endsWith("/playlists.html")) {
-        navigate("index.html");
-    } else {
-        updateSearchResults();
-    }
+    search();
 });
 
 document.addEventListener("click", (event) => {

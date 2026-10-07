@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 <li><a href="index.html" data-route><span class="menu-icon">⌂</span> Main</a></li>
-                <li><a href="#"><span class="menu-icon">◉</span> Explore</a></li>
+                <li><a href="explore.html" data-route><span class="menu-icon">◉</span> Explore</a></li>
                 <li><button id="new-playlist" type="button"><span class="menu-icon">＋</span> New playlist</button></li>
                 <li><a class="playlist-link" href="playlists.html" data-route><span class="menu-icon">■</span> Your playlists</a></li>
             </ul>
@@ -52,13 +52,9 @@
     </header>
     <main class="music-content">
         <div id="home-view">
-        <section id="mw-search-result" class="search-results" aria-label="Search results" hidden>
+        <section id="search-results" class="search-results" aria-label="Search results" hidden>
             <h1>Search results</h1>
-            <a class="featured-playlist" href="playlists.html#/mw" data-route>
-                <img src="images/MW.jpg" alt="Need for Speed: Most Wanted cover">
-                <span>Need for Speed: Most Wanted</span>
-                <small>22 songs</small>
-            </a>
+            <div id="search-results-list" class="search-results-list"></div>
         </section>
         <div class="music-layout">
             <div class="popular-sections">

@@ -127,6 +127,28 @@ main {
     font-size: clamp(24px, 3vw, 34px);
 }
 
+.search-results-list,
+.explore-tracks {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.explore-view {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.explore-view h1 {
+    margin-bottom: 8px;
+    font-size: clamp(28px, 4vw, 42px);
+}
+
+.explore-view > p {
+    margin-bottom: 28px;
+}
+
 .featured-playlist {
     display: flex;
     width: min(260px, 100%);
@@ -150,6 +172,13 @@ main {
     aspect-ratio: 1;
     border-radius: 6px;
     object-fit: cover;
+}
+
+.featured-playlist .playlist-thumbnail {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    font-size: 60px;
 }
 
 .featured-playlist small {
